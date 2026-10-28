@@ -1,0 +1,4 @@
+project_id = "your-project-id"
+region = "us-central1"
+image_uri = "us-central1-docker.pkg.dev/your-project-id/incident-support/incident-support:TAG"
+notification_email = "ops@example.com"

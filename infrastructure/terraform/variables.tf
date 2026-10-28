@@ -1,0 +1,1 @@
+variable "project_id" { type=string } variable "region" { type=string default="us-central1" } variable "service_name" { type=string default="incident-support-api" } variable "image_uri" { type=string } variable "vertex_model" { type=string default="gemini-2.5-flash" } variable "notification_email" { type=string default=null }

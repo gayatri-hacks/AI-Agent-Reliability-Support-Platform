@@ -1,0 +1,5 @@
+locals { apis=["run.googleapis.com","aiplatform.googleapis.com","artifactregistry.googleapis.com","monitoring.googleapis.com","logging.googleapis.com"] }
+resource "google_project_service" "apis" { for_each=toset(local.apis); service=each.value; disable_on_destroy=false }
+resource "google_artifact_registry_repository" "images" { location=var.region; repository_id="incident-support"; format="DOCKER"; depends_on=[google_project_service.apis] }
+resource "google_service_account" "runtime" { account_id="incident-support-runtime"; display_name="Incident Support Cloud Run runtime" }
+resource "google_cloud_run_v2_service" "api" { name=var.service_name; location=var.region; ingress="INGRESS_TRAFFIC_ALL"; template { service_account=google_service_account.runtime.email; timeout="60s"; max_instance_request_concurrency=40; scaling { min_instance_count=0; max_instance_count=4 }; containers { image=var.image_uri; resources { limits={cpu="1",memory="512Mi"} }; env { name="GCP_PROJECT_ID"; value=var.project_id }; env { name="GCP_LOCATION"; value=var.region }; env { name="VERTEX_MODEL"; value=var.vertex_model } } }; depends_on=[google_project_service.apis] }
