@@ -1,9 +1,13 @@
-import time, uuid
+import time
+import uuid
+
 from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
+
 from app.config import get_settings
-from app.core.logging import configure_logging, sanitize
+from app.core.logging import configure_logging
 from app.core.request_context import request_id_context, trace_id_context
+
 logger = configure_logging()
 
 class RequestLoggingMiddleware(BaseHTTPMiddleware):

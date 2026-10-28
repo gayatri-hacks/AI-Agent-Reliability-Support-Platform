@@ -1,9 +1,13 @@
 from functools import lru_cache
-from fastapi import Depends
-from app.config import Settings, get_settings
+
+from app.config import get_settings
 from app.services.incident_analyzer import IncidentAnalyzer
-from app.services.vertex_client import VertexProvider
+from app.services.vertex_client import MockProvider, VertexProvider
+
+
 @lru_cache
 def get_analyzer():
-    settings = get_settings(); return IncidentAnalyzer(VertexProvider(settings), settings)
+    settings = get_settings()
+    provider = MockProvider() if settings.mock_mode else VertexProvider(settings)
+    return IncidentAnalyzer(provider, settings)
 def analyzer_dependency() -> IncidentAnalyzer: return get_analyzer()

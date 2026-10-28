@@ -1,4 +1,5 @@
 from functools import lru_cache
+
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -13,6 +14,7 @@ class Settings(BaseSettings):
     gcp_location: str = "us-central1"
     vertex_model: str = "gemini-2.5-flash"
     vertex_timeout_seconds: float = Field(default=25, gt=0, le=120)
+    mock_mode: bool = False
     max_request_bytes: int = Field(default=32_768, ge=1024, le=1_000_000)
     enable_simulations: bool = False
     simulation_token: str | None = None

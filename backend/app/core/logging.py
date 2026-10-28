@@ -1,4 +1,7 @@
-import json, logging, re, sys
+import json
+import logging
+import re
+import sys
 
 SECRET_RE = re.compile(r"(?i)(bearer\s+|api[_-]?key[=:]\s*|token[=:]\s*)[^\s,]+")
 def sanitize(value: str | None) -> str | None:

@@ -21,6 +21,8 @@ cd frontend && npm install && npm run build
 
 For local analysis tests, the suite injects a mock provider. To use Vertex, set `GCP_PROJECT_ID`, authenticate with `gcloud auth application-default login`, and ensure the identity has Vertex access. No API key is used.
 
+For a fully local demonstration without the Vertex SDK or credentials, start the API with `MOCK_MODE=true`; its responses explicitly identify mock mode and never claim a Vertex call occurred.
+
 ## Cloud deployment
 
 Do not deploy until you have an authorized project and billing approval. Copy `infrastructure/terraform/terraform.tfvars.example`, run Terraform, then use `scripts/deploy.sh`. Cloud Run is private by default; call it with the identity-token example in [deployment docs](docs/deployment.md). The Terraform config does not create an external uptime check because a private endpoint needs an explicitly designed authenticated probe.

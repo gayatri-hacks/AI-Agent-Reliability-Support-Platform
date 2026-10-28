@@ -1,12 +1,17 @@
 name: Deploy Cloud Run
-on: { push: { branches: [main] } }
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
 permissions: { contents: read, id-token: write }
 jobs:
   deploy:
-    if: ${{ vars.GCP_PROJECT_ID != '' && vars.WIF_PROVIDER != '' && vars.DEPLOY_SERVICE_ACCOUNT != '' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && vars.GCP_PROJECT_ID != '' && vars.WIF_PROVIDER != '' && vars.DEPLOY_SERVICE_ACCOUNT != '' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with: { ref: '${{ github.event.workflow_run.head_sha }}' }
       - uses: google-github-actions/auth@v2
         with: { workload_identity_provider: '${{ vars.WIF_PROVIDER }}', service_account: '${{ vars.DEPLOY_SERVICE_ACCOUNT }}' }
       - uses: google-github-actions/setup-gcloud@v2

@@ -1,4 +1,4 @@
-locals { apis=["run.googleapis.com","aiplatform.googleapis.com","artifactregistry.googleapis.com","monitoring.googleapis.com","logging.googleapis.com"] }
+locals { apis=["run.googleapis.com","aiplatform.googleapis.com","artifactregistry.googleapis.com","cloudbuild.googleapis.com","monitoring.googleapis.com","logging.googleapis.com"] }
 resource "google_project_service" "apis" { for_each=toset(local.apis); service=each.value; disable_on_destroy=false }
 resource "google_artifact_registry_repository" "images" { location=var.region; repository_id="incident-support"; format="DOCKER"; depends_on=[google_project_service.apis] }
 resource "google_service_account" "runtime" { account_id="incident-support-runtime"; display_name="Incident Support Cloud Run runtime" }

@@ -1,8 +1,9 @@
 import pytest
-from fastapi.testclient import TestClient
 from app.config import get_settings
 from app.dependencies import analyzer_dependency
 from app.main import app
+from fastapi.testclient import TestClient
+
 
 class MockProvider:
     async def generate_json(self, prompt, schema):

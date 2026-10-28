@@ -1,4 +1,5 @@
 from typing import Literal
+
 from pydantic import BaseModel, Field
 
 IncidentType = Literal["timeout", "permission_denied", "application_error", "rate_limit", "service_unavailable", "other"]

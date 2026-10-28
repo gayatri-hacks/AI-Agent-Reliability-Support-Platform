@@ -1,5 +1,7 @@
-import asyncio, random
+import asyncio
+import random
 from collections.abc import Awaitable, Callable
+
 from app.core.errors import UpstreamRateLimited, UpstreamTimeout, UpstreamUnavailable
 
 RETRYABLE = (UpstreamRateLimited, UpstreamTimeout, UpstreamUnavailable)

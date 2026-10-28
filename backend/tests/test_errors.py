@@ -1,7 +1,13 @@
 import pytest
-from app.core.errors import UpstreamPermissionDenied, UpstreamRateLimited, UpstreamTimeout
+from app.core.errors import (
+    UpstreamPermissionDenied,
+    UpstreamRateLimited,
+    UpstreamTimeout,
+)
 from app.dependencies import analyzer_dependency
 from app.services.incident_analyzer import IncidentAnalyzer
+
+
 class ErrorProvider:
     def __init__(self, error): self.error=error
     async def generate_json(self, *_): raise self.error

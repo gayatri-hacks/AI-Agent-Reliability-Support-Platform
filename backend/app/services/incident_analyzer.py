@@ -1,8 +1,10 @@
 import time
+
 from app.config import Settings
 from app.core.retry import retry_transient
 from app.schemas import AnalysisResult, ChatRequest, IncidentRequest
 from app.services.vertex_client import AIProvider
+
 
 class IncidentAnalyzer:
     def __init__(self, provider: AIProvider, settings: Settings): self.provider, self.settings = provider, settings

@@ -1,8 +1,10 @@
 from fastapi import APIRouter, Depends, Request
+
 from app.config import get_settings
 from app.dependencies import analyzer_dependency
 from app.schemas import ChatRequest, ChatResponse
 from app.services.incident_analyzer import IncidentAnalyzer
+
 router = APIRouter(prefix="/api/v1/support", tags=["support"])
 @router.post("/chat", response_model=ChatResponse)
 async def chat(message: ChatRequest, request: Request, analyzer: IncidentAnalyzer = Depends(analyzer_dependency)):
