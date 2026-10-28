@@ -2,6 +2,7 @@ from collections import deque
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
@@ -13,6 +14,13 @@ from app.routes import analyze, health, simulations, support
 
 settings = get_settings(); recent_events = deque(maxlen=settings.event_history_size)
 app = FastAPI(title=settings.app_name, version=settings.app_version)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.cors_origins,
+    allow_credentials=False,
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type", "X-Request-ID", "X-Simulation-Token"],
+)
 app.add_middleware(RequestLoggingMiddleware)
 app.include_router(health.router); app.include_router(analyze.router); app.include_router(support.router); app.include_router(simulations.router)
 

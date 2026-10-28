@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     vertex_model: str = "gemini-2.5-flash"
     vertex_timeout_seconds: float = Field(default=25, gt=0, le=120)
     mock_mode: bool = False
+    cors_allowed_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
     max_request_bytes: int = Field(default=32_768, ge=1024, le=1_000_000)
     enable_simulations: bool = False
     simulation_token: str | None = None
@@ -25,6 +26,10 @@ class Settings(BaseSettings):
     @property
     def simulations_available(self) -> bool:
         return self.environment != "production" and self.enable_simulations and bool(self.simulation_token)
+
+    @property
+    def cors_origins(self) -> list[str]:
+        return [origin.strip() for origin in self.cors_allowed_origins.split(",") if origin.strip()]
 
 
 @lru_cache
